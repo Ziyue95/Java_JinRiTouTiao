@@ -250,15 +250,18 @@ public class Main {
             print(1, random.nextInt(100));
             print(2, random.nextDouble());
         }
+        /** Arrays.asList turns array into List */
         List<Integer> array = Arrays.asList(new Integer[]{1, 2, 3, 4, 5});
         print(3, array);
+        /** Collections.shuffle randomly permutes the specified list */
         Collections.shuffle(array);
         print(4, array);
-
+        /** date class */
         Date date = new Date();
         print(5, date);
         print(6, date.getTime());
         DateFormat df = new SimpleDateFormat("HH:mm:ss yyyy/MM/dd");
+        /** set the format of time date */
         print(7, df.format(date));
         print(8, DateFormat.getDateInstance(DateFormat.FULL).format(date));
         // 习题，已知今天日期，计算未来的时间，星期几
@@ -266,9 +269,19 @@ public class Main {
         print(9, UUID.randomUUID());
         print(10, Math.max(1, 2));
         print(11, Math.ceil(2.2));
-        print(12, Math.floor(2.5));
+        print(12, Math.floor(2.2));
         print(13, Math.log(2.71)); //e
+    }
+    public static com.nowcoder.Animal getAnimal(int type) {
+        //return new Animal("2", 1);
+        return new com.nowcoder.Human("Lei", 22, "CN");
+    }
 
+    public static void demoClass() {
+        com.nowcoder.Talking animal = new com.nowcoder.Animal("Jim", 1);
+        animal.say();
+        animal = new com.nowcoder.Human("Lei", 11, "CN");
+        animal.say();
     }
 
     public static void main(String[] args) {
@@ -282,6 +295,7 @@ public class Main {
         //demoSet();
         //demoKeyValue();
         //demoException();
-        demoCommon();
+        //demoCommon();
+        demoClass();
     }
 }
