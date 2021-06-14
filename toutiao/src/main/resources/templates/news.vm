@@ -1,0 +1,75 @@
+<html>
+<body>
+<pre>
+Hello VM.
+
+## 你看不到我
+
+
+#*
+这里都看不到
+*#
+
+## $!{value1} is to show value1 added to the storage model from back end;
+value1:$!{value1}
+## $! makes sure to show nothing if the variable(value2 here)) doesn't exist;
+$!{value2}
+## ${...} is just treated as normal content in .vm file;
+${value3}
+
+## for loop using #foreach ($var in $var_list) ... #end;
+## index of for loop starts from 0; ##
+#foreach ($color in $colors)
+    ##foreach.index returns the current index; ##
+    ##foreach.count returns the length of iterable object($colors here);
+Color $!{foreach.index}/$!{foreach.count}: $!{color}
+#end
+
+## $map.ketSet returns the key set of map
+#foreach($key in $map.keySet())
+    ##map.get($key) returns the value correpsonding to $key
+Number $!{foreach.index}/$!{foreach.count}: $!{key} $map.get($key)
+#end
+
+## $map.entrySet() returns the key-value pair of map;
+#foreach($kv in $map.entrySet())
+Number $!{foreach.index}/$!{foreach.count}: $!{kv.key} $!{kv.value}
+#end
+
+## use the pre-defined class under model directory
+User:$!{user.name}
+User:$!{user.getName()}
+
+## set the value of variable title defined in head.vm;
+#set($title = "nowcoder")
+## #include method simply include the content in header.vm;
+Include: #include("header.vm") <br>
+## #parse method compile the header.vm file set up above: #set(...) and include the compiled content;
+Parse:#parse("header.vm")
+
+## #macro method defines a function render_color with attributes $color, $index;
+#macro (render_color, $color, $index)
+Color By Macro $index, $color
+#end
+
+#foreach ($color in $colors)
+    #render_color($color, $foreach.index)
+#end
+
+## use #set method to set value "hello" for variable $hello;
+#set($hello = "hello")
+## Difference between "" and '';
+## "" will compile the expression within;
+## '' will not compile, but simple show the content within;
+#set($hworld1 = "$!{hello} world")
+#set($hworld2 = '$!{hello} world')
+
+hworld1:$hworld1
+hworld2:$hworld2
+
+## .size() returns the size of List colors;
+$!{colors.size()}
+
+</pre>
+</body>
+</html>
