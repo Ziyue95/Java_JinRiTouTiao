@@ -25,24 +25,30 @@ import java.util.*;
  */
 @Controller
 public class IndexController {
-    /**
+    /** Add a Logger object: record all log infos */
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
+    /** use @Autowired to automatically inject other classes(using the IoC idea)
+     * web: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Autowired.html */
     @Autowired
     private ToutiaoService toutiaoService;
-    */
+
     @RequestMapping(path = {"/", "/index"}, method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     /** load message from session */
     public String index(HttpSession session) {
-        //logger.info("Visit Index");
+        /** Add info into logger */
+        logger.info("Visit Index");
+
         /** session.getAttribute("msg") fetches data from session with attribute msg */
-        return "Hello NowCoder," + session.getAttribute("msg");
-                //+ "<br> Say:" + toutiaoService.say();
+        return "Hello NowCoder," + session.getAttribute("msg")
+                + "<br> Say:" + toutiaoService.say();
     }
 
     @RequestMapping(value = {"/profile/{groupId}/{userId}"})
     @ResponseBody
+    /** Get variables from path of url using @PathVairable;
+     *  Get parameters from parameters of url(after query(?)) */
     public String profile(@PathVariable("groupId") String groupId,
                           @PathVariable("userId") int userId,
                           @RequestParam(value = "type", defaultValue = "1") int type,
@@ -119,7 +125,7 @@ public class IndexController {
                            @RequestParam(value = "key", defaultValue = "key") String key,
                            @RequestParam(value = "value", defaultValue = "value") String value,
                            HttpServletResponse response) {
-        /** search parameter: key and value from url and add corresponding Cookie in response */
+        /** search parameter key and value from url and add corresponding Cookie in response */
         response.addCookie(new Cookie(key, value));
 
         /** write a header with name key and value value into the Response header */

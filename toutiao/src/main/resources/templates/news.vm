@@ -7,7 +7,7 @@ Hello VM.
 
 
 #*
-这里都看不到
+Very Similar thing as jinja2 for flask(template to build a webpage)
 *#
 
 ## $!{value1} is to show value1 added to the storage model from back end;
