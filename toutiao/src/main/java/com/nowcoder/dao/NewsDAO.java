@@ -5,7 +5,6 @@ import com.nowcoder.model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.jboss.logging.Param;
 
 import java.util.List;
 

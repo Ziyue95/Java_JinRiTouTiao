@@ -1,10 +1,10 @@
 package com.nowcoder.service;
 
-import com.nowcoder.dao.LoginTicketDAO;
+//import com.nowcoder.dao.LoginTicketDAO;
 import com.nowcoder.dao.UserDAO;
-import com.nowcoder.model.LoginTicket;
+//import com.nowcoder.model.LoginTicket;
 import com.nowcoder.model.User;
-import com.nowcoder.util.ToutiaoUtil;
+//import com.nowcoder.util.ToutiaoUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

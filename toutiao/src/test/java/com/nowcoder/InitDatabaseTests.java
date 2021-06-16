@@ -30,6 +30,7 @@ public class InitDatabaseTests {
 
     @Test
     public void initData() {
+
         Random random = new Random();
         for (int i = 0; i < 11; ++i) {
             User user = new User();
@@ -42,11 +43,11 @@ public class InitDatabaseTests {
             News news = new News();
             news.setCommentCount(i);
             Date date = new Date();
-            date.setTime(date.getTime() + 1000*3600*5*i);
+            date.setTime(date.getTime() + 1000 * 3600 * 5 * i);
             news.setCreatedDate(date);
             news.setImage(String.format("http://images.nowcoder.com/head/%dm.png", random.nextInt(1000)));
-            news.setLikeCount(i+1);
-            news.setUserId(i+1);
+            news.setLikeCount(i + 1);
+            news.setUserId(i + 1);
             news.setTitle(String.format("TITLE{%d}", i));
             news.setLink(String.format("http://www.nowcoder.com/%d.html", i));
             newsDAO.addNews(news);
@@ -58,6 +59,7 @@ public class InitDatabaseTests {
         Assert.assertEquals("newpassword", userDAO.selectById(1).getPassword());
         userDAO.deleteById(1);
         Assert.assertNull(userDAO.selectById(1));
+
 
     }
 
