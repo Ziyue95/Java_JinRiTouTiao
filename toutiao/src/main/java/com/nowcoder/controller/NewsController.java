@@ -1,7 +1,7 @@
 package com.nowcoder.controller;
 
 import com.nowcoder.model.*;
-//import com.nowcoder.service.CommentService;
+import com.nowcoder.service.CommentService;
 import com.nowcoder.service.NewsService;
 import com.nowcoder.service.QiniuService;
 import com.nowcoder.service.UserService;
@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.parser.Entity;
 import java.awt.image.VolatileImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,11 +37,37 @@ public class NewsController {
     @Autowired
     HostHolder hostHolder;
 
-    //@Autowired
-    //CommentService commentService;
+    @Autowired
+    CommentService commentService;
 
     @Autowired
     UserService userService;
+
+    @RequestMapping(path = {"/news/{newsId}"}, method = {RequestMethod.GET})
+    public String newsDetail(@PathVariable("newsId") int newsId, Model model){
+        try{
+            News news = newsService.getById(newsId);
+            if(news!=null){
+                /** collect all comments and their corresponding users from each news
+                 * and store the information into ViewObject commentVO
+                 * all commentVO is stored into the List of ViewObjects commentVOs*/
+                List<Comment> comments = commentService.getCommentsByEntity(news.getId(), EntityType.ENTITY_NEWS);
+                List<ViewObject> commentVOs = new ArrayList<ViewObject>();
+                for(Comment comment:comments){
+                    ViewObject commentVO = new ViewObject();
+                    commentVO.set("comment",comment);
+                    commentVO.set("user",userService.getUser(comment.getUserId()));
+                    commentVOs.add(commentVO);
+                }
+                model.addAttribute("comments", commentVOs);
+            }
+            model.addAttribute("news", news);
+            model.addAttribute("owner", userService.getUser(news.getUserId()));
+        }catch (Exception e){
+            logger.error("Fail to load news;" + e.getMessage());
+        }
+        return "detail";
+    }
 
 
     @RequestMapping(path = {"/image"}, method = {RequestMethod.GET})
@@ -114,4 +141,26 @@ public class NewsController {
         }
     }
 
+    @RequestMapping(path = {"/addComment"}, method = {RequestMethod.POST})
+    public String addComment(@RequestParam("newsId") int newsId,
+                      @RequestParam("content") String content){
+        try{
+            Comment comment = new Comment();
+            comment.setUserId(hostHolder.getUser().getId());
+            comment.setContent(content);
+            comment.setCreatedDate(new Date());
+            comment.setEntityId(newsId);
+            comment.setEntityType(EntityType.ENTITY_NEWS);
+            comment.setStatus(0);
+            commentService.addComment(comment);
+
+            //Update comment count, for further AJAX application
+            int count = commentService.getCommentCount(comment.getEntityId(), comment.getEntityType());
+            newsService.updateCommentCount(comment.getEntityId(), count);
+
+        }catch (Exception e){
+            logger.error("Fail to submit comment;" + e.getMessage());
+        }
+        return "redirect:/news/" + String.valueOf(newsId);
+    }
 }

@@ -62,11 +62,10 @@ public class NewsService {
         return map;
     }
 
-    /*
+
     public News getById(int newsId) {
         return newsDAO.getById(newsId);
     }
-    */
 
     public String saveImage(MultipartFile file) throws IOException{
         int dotPos = file.getOriginalFilename().lastIndexOf(".");
@@ -92,9 +91,8 @@ public class NewsService {
 
     }
 
-    /*
+
     public int updateCommentCount(int id, int count) {
         return newsDAO.updateCommentCount(id, count);
     }
-    */
 }
