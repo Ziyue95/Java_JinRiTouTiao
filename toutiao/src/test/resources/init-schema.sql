@@ -32,6 +32,7 @@ CREATE TABLE `login_ticket` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `ticket_UNIQUE` (`ticket` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
   `id` INT NOT NULL AUTO_INCREMENT,

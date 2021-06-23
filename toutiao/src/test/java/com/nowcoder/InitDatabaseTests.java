@@ -1,10 +1,12 @@
 package com.nowcoder;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.nowcoder.dao.CommentDAO;
 import com.nowcoder.dao.LoginTicketDAO;
 import com.nowcoder.dao.NewsDAO;
 import com.nowcoder.dao.UserDAO;
 import com.nowcoder.model.*;
+import com.nowcoder.service.CommentService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
 import java.util.Random;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ToutiaoApplication.class)
