@@ -41,13 +41,14 @@ public class MessageController {
                 }
                 vo.set("headUrl", user.getHeadUrl());
                 vo.set("userName", user.getName());
+                vo.set("userId", user.getId());
                 messages.add(vo);
             }
             model.addAttribute("messages", messages);
             return "letterDetail";
 
         } catch (Exception e){
-            logger.error("Fail to obtain conversation list" + e.getMessage());
+            logger.error("Fail to obtain conversation detail;" + e.getMessage());
         }
         return "letterDetail";
     }
@@ -65,6 +66,7 @@ public class MessageController {
                 User user = userService.getUser(targetId);
                 vo.set("headUrl", user.getHeadUrl());
                 vo.set("userName", user.getName());
+                vo.set("userId", user.getId());
                 vo.set("targetId", targetId);
                 vo.set("totalCount", msg.getId());
                 vo.set("unreadCount", messageService.getUnreadCount(localUserId, msg.getConversationId()));
@@ -84,14 +86,19 @@ public class MessageController {
     public String addMessage(@RequestParam("fromId") int fromId,
                              @RequestParam("toId") int toId,
                              @RequestParam("content") String content){
-        Message msg = new Message();
-        msg.setContent(content);
-        msg.setCreatedDate(new Date());
-        msg.setToId(toId);
-        msg.setFromId(fromId);
-        msg.setConversationId(fromId < toId ? String.format("%d_%d", fromId, toId) :
-                String.format("%d_%d", toId, fromId));
-        messageService.addMessage(msg);
-        return ToutiaoUtil.getJSONString(msg.getId());
+        try {
+            Message msg = new Message();
+            msg.setContent(content);
+            msg.setCreatedDate(new Date());
+            msg.setToId(toId);
+            msg.setFromId(fromId);
+            msg.setConversationId(fromId < toId ? String.format("%d_%d", fromId, toId) :
+                    String.format("%d_%d", toId, fromId));
+            messageService.addMessage(msg);
+            return ToutiaoUtil.getJSONString(msg.getId());
+        }catch (Exception e){
+            logger.error("Fail to add Message" + e.getMessage());
+            return ToutiaoUtil.getJSONString(1, "FAIL to add message;");
+        }
     }
 }
